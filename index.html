@@ -73,7 +73,7 @@
             </div>
             <div class="flex items-center space-x-2 bg-slate-50 p-2 rounded-lg border border-slate-100 text-xs">
                 <i class="fas fa-check-circle text-green-600 text-base"></i>
-                <span><strong>Infografía Interactiva:</strong> Sincronizada con diseño visual dinámico y soporte de imagen.</span>
+                <span><strong>Infografía Integrada:</strong> Renderizada directamente con componentes interactivos y visuales en HTML.</span>
             </div>
         </section>
 
@@ -105,91 +105,91 @@
             </button>
         </nav>
 
-        <!-- SECCIÓN 1: INFOGRAFÍA DEL SISTEMA (INTERACTIVA + IMAGEN) -->
+        <!-- SECCIÓN 1: INFOGRAFÍA DEL SISTEMA (INTERACTIVA COMPLETA) -->
         <section id="infografia-tab" class="tab-content block space-y-6">
             <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4 mb-6">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center">
-                            <i class="fas fa-project-diagram text-green-600 mr-2"></i>
+                        <h3 class="text-xl font-black text-slate-900 tracking-wide flex items-center">
+                            <i class="fas fa-project-diagram text-green-600 mr-3"></i>
                             SISTEMA DIGITAL DE GESTIÓN DE STOCK Y ALBARANES
                         </h3>
-                        <p class="text-xs text-slate-500">Esquema integral de la Arquitectura Tecnológica, Tipos de Albaranes, Flujo Operativo y Cumplimiento Legal.</p>
+                        <p class="text-xs text-slate-500 mt-1">Esquema integral de la Arquitectura Tecnológica, Tipos de Albaranes, Flujo Operativo y Cumplimiento Legal.</p>
                     </div>
                     <div class="mt-3 sm:mt-0 flex items-center space-x-2">
                         <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">
-                            Infografía Adaptativa HD
+                            Infografía Web Integrada
                         </span>
                     </div>
                 </div>
 
-                <!-- CONTENEDOR DE LA IMAGEN DE LA INFOGRAFÍA -->
-                <div class="mb-8 bg-slate-100 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
-                    <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3"><i class="fas fa-image text-green-600 mr-1"></i> Vista de Imagen de la Infografía</h4>
-                    <img src="Gestión_de_stock_y_albaranes.png" alt="Sistema Digital de Gestión de Stock y Albaranes" class="max-w-full h-auto rounded-lg shadow-lg border border-slate-300 max-h-[850px] object-contain onerror-hide" onerror="this.style.display='none'; document.getElementById('img-fallback-notice').classList.remove('hidden');">
-                    <div id="img-fallback-notice" class="hidden text-center p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-xs">
-                        <i class="fas fa-info-circle mr-1 text-amber-600"></i> Si la imagen de archivo no está en el mismo directorio local, consulta a continuación el <strong>módulo visual de infografía renderizado directamente en HTML/CSS</strong>.
-                    </div>
+                <!-- SI EXISTE LA IMAGEN LOCAL SE MUESTRA; SI NO, SE VISUALIZA LA INFOGRAFÍA HTML NATIVA -->
+                <div class="mb-6">
+                    <img src="Gestión_de_stock_y_albaranes.png" alt="Sistema Digital de Gestión de Stock y Albaranes" class="w-full h-auto rounded-xl shadow-md border border-slate-200 mb-6 onerror-hide" onerror="this.style.display='none';">
                 </div>
 
-                <!-- RENDERIZADO VISUAL INTERACTIVO DE LA INFOGRAFÍA EN HTML/CSS -->
-                <div class="space-y-6">
-                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2"><i class="fas fa-cubes text-emerald-600 mr-1"></i> Desglose de Componentes de la Infografía</h4>
+                <!-- PANEL INFOGRÁFICO NATIVO RENDERIZADO EN HTML Y CSS -->
+                <div class="space-y-6 bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
                     
                     <!-- BLOQUE 1: ARQUITECTURA TECNOLÓGICA -->
-                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl p-6 shadow-md border border-slate-700">
-                        <div class="flex items-center space-x-2 mb-4 border-b border-slate-700 pb-3">
-                            <i class="fas fa-layer-group text-green-400 text-xl"></i>
-                            <h4 class="text-sm font-bold uppercase tracking-wider">1. Arquitectura Tecnológica del Sistema</h4>
+                    <div class="bg-slate-900 text-white rounded-xl p-6 shadow-md border border-slate-800">
+                        <div class="flex items-center space-x-3 mb-4 border-b border-slate-800 pb-3">
+                            <div class="p-2 bg-green-500/20 text-green-400 rounded-lg">
+                                <i class="fas fa-cubes text-xl"></i>
+                            </div>
+                            <h4 class="text-base font-bold uppercase tracking-wider text-slate-100">1. Arquitectura Tecnológica del Sistema</h4>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <div class="bg-slate-800/80 p-4 rounded-lg border border-slate-700 hover:border-green-400 transition">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
                                 <div class="text-green-400 font-bold text-sm mb-1 flex items-center">
                                     <i class="fas fa-server mr-2"></i> Backend en Django
                                 </div>
                                 <p class="text-slate-300">Proporciona arquitectura MVC segura y modular. Organiza el código en vistas, modelos y plantillas.</p>
                             </div>
-                            <div class="bg-slate-800/80 p-4 rounded-lg border border-slate-700 hover:border-green-400 transition">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
                                 <div class="text-emerald-300 font-bold text-sm mb-1 flex items-center">
-                                    <i class="fas fa-mobile-alt mr-2"></i> Frontend con Bootstrap
+                                    <i class="fas fa-desktop mr-2"></i> Frontend con Bootstrap
                                 </div>
                                 <p class="text-slate-300">Permite una interfaz adaptable (responsiva) a teléfonos móviles, tabletas y ordenadores de escritorio.</p>
                             </div>
-                            <div class="bg-slate-800/80 p-4 rounded-lg border border-slate-700 hover:border-green-400 transition">
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
                                 <div class="text-purple-300 font-bold text-sm mb-1 flex items-center">
                                     <i class="fas fa-database mr-2"></i> Base de Datos SQLite
                                 </div>
-                                <p class="text-slate-300">Motor ligero embebido ideal para gestión inicial y pruebas de prototipo en entorno de desarrollo.</p>
+                                <p class="text-slate-300">Motor ligero embebido ideal para la gestión inicial y pruebas de prototipo en entorno de desarrollo.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- BLOQUE 2: TIPOS Y NORMATIVA DE ALBARANES -->
-                    <div class="bg-amber-50/50 rounded-xl p-6 border border-amber-200 shadow-sm">
-                        <div class="flex items-center space-x-2 mb-4 border-b border-amber-200 pb-3">
-                            <i class="fas fa-file-invoice text-amber-700 text-xl"></i>
-                            <h4 class="text-sm font-bold text-amber-900 uppercase tracking-wider">2. Tipos y Normativa de Albaranes</h4>
+                    <div class="bg-amber-50 rounded-xl p-6 border border-amber-200 shadow-sm">
+                        <div class="flex items-center space-x-3 mb-4 border-b border-amber-200 pb-3">
+                            <div class="p-2 bg-amber-500/20 text-amber-800 rounded-lg">
+                                <i class="fas fa-file-invoice text-xl"></i>
+                            </div>
+                            <h4 class="text-base font-bold text-amber-950 uppercase tracking-wider">2. Tipos y Normativa de Albaranes</h4>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <div class="bg-white p-4 rounded-lg border border-amber-200 shadow-sm">
-                                <h5 class="font-bold text-amber-800 text-xs mb-1 flex items-center">
-                                    <i class="fas fa-calculator mr-1.5 text-amber-600"></i> Albarán Valorado
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm">
+                                <h5 class="font-bold text-amber-900 text-xs mb-2 flex items-center">
+                                    <i class="fas fa-calculator mr-2 text-amber-600"></i> Albarán Valorado
                                 </h5>
-                                <p class="text-slate-600">Detalla precios unitarios, IVA aplicable e importe total económico de la transacción comercial.</p>
+                                <p class="text-slate-600 leading-relaxed">Detalla precios unitarios, IVA aplicable e importe total económico de la transacción comercial.</p>
                             </div>
-                            <div class="bg-white p-4 rounded-lg border border-amber-200 shadow-sm">
-                                <h5 class="font-bold text-amber-800 text-xs mb-1 flex items-center">
-                                    <i class="fas fa-box-open mr-1.5 text-amber-600"></i> Albarán Sin Valorar
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm">
+                                <h5 class="font-bold text-amber-900 text-xs mb-2 flex items-center">
+                                    <i class="fas fa-box-open mr-2 text-amber-600"></i> Albarán Sin Valorar
                                 </h5>
-                                <p class="text-slate-600">Describe únicamente la mercancía y la cantidad sin mostrar importes económicos; requiere factura adjunta.</p>
+                                <p class="text-slate-600 leading-relaxed">Describe únicamente la mercancía y la cantidad sin mostrar importes económicos; requiere factura adjunta.</p>
                             </div>
-                            <div class="bg-white p-4 rounded-lg border border-amber-300 shadow-sm col-span-1 md:col-span-1">
-                                <h5 class="font-bold text-amber-900 text-xs mb-2">Tabla de Diferencias con Factura</h5>
+                            <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
+                                <h5 class="font-bold text-amber-950 text-xs mb-2">Diferencia con Factura</h5>
+                                <p class="text-[11px] text-amber-900 font-medium mb-2">El albarán carece de validez fiscal directa.</p>
                                 <div class="overflow-x-auto">
-                                    <table class="w-full text-[11px] text-left">
+                                    <table class="w-full text-[11px] text-left border-collapse">
                                         <tr class="border-b font-semibold bg-amber-100/60"><td class="p-1">Criterio</td><td class="p-1">Albarán</td><td class="p-1">Factura</td></tr>
-                                        <tr class="border-b"><td class="p-1 font-medium">Validez Fiscal</td><td class="p-1 text-slate-500">Sin función tributaria</td><td class="p-1 font-bold text-amber-900">Obligatoria</td></tr>
-                                        <tr class="border-b"><td class="p-1 font-medium">Propósito</td><td class="p-1">Acredita entrega</td><td class="p-1">Justifica pago</td></tr>
+                                        <tr class="border-b"><td class="p-1 font-medium">Validez</td><td class="p-1 text-slate-500">Sin función tributaria</td><td class="p-1 font-bold text-amber-900">Obligatoria</td></tr>
+                                        <tr><td class="p-1 font-medium">Función</td><td class="p-1">Acredita entrega</td><td class="p-1">Justifica pago</td></tr>
                                     </table>
                                 </div>
                             </div>
@@ -200,46 +200,50 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         
                         <!-- FLUJO OPERATIVO (2 COLS) -->
-                        <div class="md:col-span-2 bg-emerald-50/50 rounded-xl p-6 border border-emerald-200 shadow-sm">
-                            <div class="flex items-center space-x-2 mb-4 border-b border-emerald-200 pb-3">
-                                <i class="fas fa-sync text-emerald-700 text-xl"></i>
-                                <h4 class="text-sm font-bold text-emerald-900 uppercase tracking-wider">3. Flujo Operativo de Inventario</h4>
+                        <div class="md:col-span-2 bg-emerald-50 rounded-xl p-6 border border-emerald-200 shadow-sm">
+                            <div class="flex items-center space-x-3 mb-4 border-b border-emerald-200 pb-3">
+                                <div class="p-2 bg-emerald-500/20 text-emerald-800 rounded-lg">
+                                    <i class="fas fa-sync text-xl"></i>
+                                </div>
+                                <h4 class="text-base font-bold text-emerald-950 uppercase tracking-wider">3. Flujo Operativo de Inventario</h4>
                             </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                 <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-800 block mb-1"><i class="fas fa-truck-loading text-emerald-600 mr-1"></i> Entrada de Compras</span>
+                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-truck-loading text-emerald-600 mr-2"></i> Entrada de Compras</span>
                                     <p class="text-slate-600">Recalcula el stock físico y ajusta el precio medio ponderado del producto.</p>
                                 </div>
                                 <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-800 block mb-1"><i class="fas fa-file-signature text-emerald-600 mr-1"></i> Generación de Albaranes</span>
-                                    <p class="text-slate-600">Asigna productos, lotes y clientes en tiempo real dentro del módulo Django.</p>
+                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-file-signature text-emerald-600 mr-2"></i> Generación de Albaranes</span>
+                                    <p class="text-slate-600">Asigna productos y clientes en tiempo real dentro del módulo Django.</p>
                                 </div>
                                 <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-800 block mb-1"><i class="fas fa-chart-line text-emerald-600 mr-1"></i> Control Stock Teórico</span>
+                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-chart-line text-emerald-600 mr-2"></i> Control Stock Teórico</span>
                                     <p class="text-slate-600">Emite alertas automáticas ante valores negativos para reabastecer existencias.</p>
                                 </div>
                                 <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-800 block mb-1"><i class="fas fa-warehouse text-emerald-600 mr-1"></i> Actualización de Stock</span>
-                                    <p class="text-slate-600">Resta unidades automáticamente del inventario tras confirmar la venta.</p>
+                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-warehouse text-emerald-600 mr-2"></i> Actualización de Stock</span>
+                                    <p class="text-slate-600">Resta unidades automáticamente del inventario tras guardar la venta.</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- CUMPLIMIENTO LEGAL (1 COL) -->
-                        <div class="bg-purple-50/50 rounded-xl p-6 border border-purple-200 shadow-sm flex flex-col justify-between">
+                        <div class="bg-purple-50 rounded-xl p-6 border border-purple-200 shadow-sm flex flex-col justify-between">
                             <div>
-                                <div class="flex items-center space-x-2 mb-4 border-b border-purple-200 pb-3">
-                                    <i class="fas fa-balance-scale text-purple-700 text-xl"></i>
-                                    <h4 class="text-sm font-bold text-purple-900 uppercase tracking-wider">4. Cumplimiento Legal</h4>
+                                <div class="flex items-center space-x-3 mb-4 border-b border-purple-200 pb-3">
+                                    <div class="p-2 bg-purple-500/20 text-purple-800 rounded-lg">
+                                        <i class="fas fa-gavel text-xl"></i>
+                                    </div>
+                                    <h4 class="text-base font-bold text-purple-950 uppercase tracking-wider">4. Cumplimiento Legal</h4>
                                 </div>
                                 <div class="space-y-3 text-xs">
-                                    <div class="bg-white p-3 rounded-lg border border-purple-200">
-                                        <span class="font-bold text-purple-900 block mb-1"><i class="fas fa-clock text-purple-600 mr-1"></i> Ley de Morosidad (Ley 15/2010)</span>
-                                        <p class="text-slate-600">Fija el plazo máximo de pago en **60 días naturales** desde la recepción de la mercancía y firma del albarán.</p>
+                                    <div class="bg-white p-3.5 rounded-lg border border-purple-200">
+                                        <span class="font-bold text-purple-950 block mb-1"><i class="fas fa-clock text-purple-600 mr-1.5"></i> Ley de Morosidad (Ley 15/2010)</span>
+                                        <p class="text-slate-600">Fija el plazo máximo de pago en **60 días naturales** desde la recepción y firma del albarán.</p>
                                     </div>
-                                    <div class="bg-white p-3 rounded-lg border border-purple-200">
-                                        <span class="font-bold text-purple-900 block mb-1"><i class="fas fa-archive text-purple-600 mr-1"></i> Obligación de Custodia</span>
-                                        <p class="text-slate-600">Obligatorio retener el albarán junto a la factura comercial si esta hace referencia expresa a dicho albarán.</p>
+                                    <div class="bg-white p-3.5 rounded-lg border border-purple-200">
+                                        <span class="font-bold text-purple-950 block mb-1"><i class="fas fa-archive text-purple-600 mr-1.5"></i> Obligación de Conservación</span>
+                                        <p class="text-slate-600">Es obligatorio retener el albarán si la factura emitida hace referencia a dicho número.</p>
                                     </div>
                                 </div>
                             </div>
