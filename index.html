@@ -4,683 +4,557 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt&Go AI | Plataforma Integrada de Formación Adaptativa</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        migasa: {
-                            dark: '#1b4332',
-                            light: '#40916c',
-                            accent: '#74c69d'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        .active-tab {
-            border-bottom: 3px solid #16a34a;
-            color: #16a34a;
+        :root {
+            --primary-green: #14452f;
+            --accent-green: #1d6344;
+            --light-green: #e8f5ee;
+            --dark-slate: #0f172a;
+        }
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #1e293b;
+        }
+        .top-header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 1.5rem 0;
+            border-bottom: 4px solid #22c55e;
+        }
+        .brand-badge {
+            background: white;
+            color: var(--primary-green);
+            font-weight: 800;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.35rem;
+        }
+        .brand-ai {
+            background: var(--light-green);
+            color: var(--accent-green);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.4rem;
+        }
+        .status-pill {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.35rem 0.85rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .user-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            margin-top: -1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .avatar-circle {
+            width: 56px;
+            height: 56px;
+            background-color: var(--light-green);
+            color: var(--accent-green);
             font-weight: 700;
+            font-size: 1.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .nav-tabs-custom {
+            border-bottom: 2px solid #e2e8f0;
+            gap: 0.5rem;
+        }
+        .nav-tabs-custom .nav-link {
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav-tabs-custom .nav-link:hover {
+            color: var(--primary-green);
+        }
+        .nav-tabs-custom .nav-link.active {
+            color: var(--accent-green);
+            background: transparent;
+            border-bottom: 3px solid var(--accent-green);
+        }
+        .section-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+        .arch-box {
+            background-color: var(--dark-slate);
+            color: white;
+            border-radius: 0.85rem;
+            padding: 1.5rem;
+        }
+        .feature-item {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.65rem;
+            padding: 1rem;
+            height: 100%;
+        }
+        .info-pill {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            font-weight: 600;
+            padding: 0.4rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+        .sim-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.85rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            height: 100%;
+        }
+        .prompt-output {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            min-height: 110px;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body>
 
-    <!-- HEADER / BRANDING BANNER -->
-    <header class="bg-migasa-dark text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="bg-white p-2 rounded-lg shadow-sm">
-                    <span class="text-xl font-black text-migasa-dark tracking-wider">Prompt<span class="text-green-600">&</span>Go</span>
-                    <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-0.5 rounded ml-1">AI</span>
-                </div>
-                <div>
-                    <h1 class="text-sm font-semibold text-slate-200">Plataforma de Microaprendizaje Adaptativo</h1>
-                    <p class="text-xs text-slate-300">Caso Práctico: Laura Gómez (MIGASA Logística) & desarrollo Django/Gestión de Stock</p>
+    <!-- Cabecera Principal -->
+    <header class="top-header pb-5">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-badge">
+                        <i class="bi bi-journal-code text-success"></i>
+                        Prompt&amp;Go <span class="brand-ai">AI</span>
+                    </div>
+                    <div>
+                        <h1 class="h4 mb-0 fw-bold">Plataforma de Microaprendizaje Adaptativo</h1>
+                        <p class="mb-0 text-white-50 small">Caso Práctico: Automatización de Albaranes e Inventarios • Desarrollo Django &amp; Gestión de Stock</p>
+                    </div>
                 </div>
             </div>
-
-            <div class="flex items-center space-x-3 text-xs">
-                <span class="bg-emerald-800 text-emerald-100 px-3 py-1 rounded-full border border-emerald-600 font-medium">
-                    <i class="fas fa-certificate text-yellow-400 mr-1"></i> Módulo Activo: Albaranes e Inventarios
-                </span>
-                <span class="bg-slate-700 text-slate-200 px-3 py-1 rounded-full hidden sm:inline">
-                    <i class="fas fa-bolt text-amber-400 mr-1"></i> Modo Completo & Interactivo
-                </span>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="status-pill"><i class="bi bi-sun-fill text-warning"></i> Módulo Activo: Albaranes e Inventarios</span>
+                <span class="status-pill"><i class="bi bi-lightning-charge-fill text-info"></i> Modo Completo &amp; Interactivo</span>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-
-        <!-- CONTEXT BANNER FOR LAURA -->
-        <section class="mb-6 bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-lg flex-shrink-0">
-                    LG
-                </div>
+    <!-- Tarjeta de Perfil Genérico -->
+    <div class="container">
+        <div class="user-card mb-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="avatar-circle">UD</div>
                 <div>
-                    <h2 class="text-base font-bold text-slate-900">Bienvenida de nuevo, Laura Gómez</h2>
-                    <p class="text-xs text-slate-600">Administrativa de Logística en MIGASA • Progreso del Plan de Estudio: <span id="user-progress" class="font-bold text-green-600">100% completado</span></p>
+                    <h2 class="h5 mb-1 fw-bold">Bienvenida de nuevo, Usuario Demo</h2>
+                    <p class="mb-0 text-muted small">Perfil Administrativo • Progreso del Plan de Estudio: <span class="text-success fw-bold">100% completado</span></p>
                 </div>
             </div>
-            <div class="flex items-center space-x-2 bg-slate-50 p-2 rounded-lg border border-slate-100 text-xs">
-                <i class="fas fa-check-circle text-green-600 text-base"></i>
+            <div class="bg-light border rounded-3 p-2 px-3 d-flex align-items-center gap-2 small text-secondary">
+                <i class="bi bi-check-circle-fill text-success"></i>
                 <span><strong>Infografía Integrada:</strong> Renderizada directamente con componentes interactivos y visuales en HTML.</span>
             </div>
-        </section>
+        </div>
 
-        <!-- DASHBOARD NAVIGATION TABS -->
-        <nav class="flex border-b border-slate-200 mb-6 space-x-6 overflow-x-auto text-sm font-medium text-slate-500">
-            <button onclick="switchTab('infografia-tab')" id="btn-infografia-tab" class="py-3 px-1 active-tab flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-project-diagram text-lg"></i>
-                <span> Infografía del Sistema</span>
-            </button>
-            <button onclick="switchTab('ejercicios-tab')" id="btn-ejercicios-tab" class="py-3 px-1 flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-laptop-code text-lg"></i>
-                <span>⚡ Casos Prácticos & Simulación</span>
-            </button>
-            <button onclick="switchTab('cuestionario-tab')" id="btn-cuestionario-tab" class="py-3 px-1 flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-tasks text-lg"></i>
-                <span> Cuestionario (10 Preguntas)</span>
-            </button>
-            <button onclick="switchTab('ensayo-tab')" id="btn-ensayo-tab" class="py-3 px-1 flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-pen-nib text-lg"></i>
-                <span> Preguntas de Desarrollo</span>
-            </button>
-            <button onclick="switchTab('video-tab')" id="btn-video-tab" class="py-3 px-1 flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-play-circle text-lg"></i>
-                <span> Vídeo & Audio NotebookLM</span>
-            </button>
-            <button onclick="switchTab('glosario-tab')" id="btn-glosario-tab" class="py-3 px-1 flex items-center space-x-2 whitespace-nowrap">
-                <i class="fas fa-book text-lg"></i>
-                <span> Glosario Técnico</span>
-            </button>
-        </nav>
+        <!-- Navegación por Pestañas -->
+        <ul class="nav nav-tabs nav-tabs-custom mb-4" id="platformTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="infografia-tab" data-bs-toggle="tab" data-bs-target="#infografia" type="button" role="tab">
+                    <i class="bi bi-diagram-3 me-1"></i> Infografía del Sistema
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="simulacion-tab" data-bs-toggle="tab" data-bs-target="#simulacion" type="button" role="tab">
+                    <i class="bi bi-lightning-charge text-warning me-1"></i> Casos Prácticos &amp; Simulación
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cuestionario-tab" data-bs-toggle="tab" data-bs-target="#cuestionario" type="button" role="tab">
+                    <i class="bi bi-list-check me-1"></i> Cuestionario (10 Preguntas)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="desarrollo-tab" data-bs-toggle="tab" data-bs-target="#desarrollo" type="button" role="tab">
+                    <i class="bi bi-file-earmark-text me-1"></i> Preguntas de Desarrollo
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="glosario-tab" data-bs-toggle="tab" data-bs-target="#glosario" type="button" role="tab">
+                    <i class="bi bi-book me-1"></i> Glosario Técnico
+                </button>
+            </li>
+        </ul>
 
-        <!-- SECCIÓN 1: INFOGRAFÍA DEL SISTEMA (INTERACTIVA COMPLETA) -->
-        <section id="infografia-tab" class="tab-content block space-y-6">
-            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4 mb-6">
-                    <div>
-                        <h3 class="text-xl font-black text-slate-900 tracking-wide flex items-center">
-                            <i class="fas fa-project-diagram text-green-600 mr-3"></i>
-                            SISTEMA DIGITAL DE GESTIÓN DE STOCK Y ALBARANES
-                        </h3>
-                        <p class="text-xs text-slate-500 mt-1">Esquema integral de la Arquitectura Tecnológica, Tipos de Albaranes, Flujo Operativo y Cumplimiento Legal.</p>
-                    </div>
-                    <div class="mt-3 sm:mt-0 flex items-center space-x-2">
-                        <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">
-                            Infografía Web Integrada
-                        </span>
-                    </div>
-                </div>
-
-                <!-- SI EXISTE LA IMAGEN LOCAL SE MUESTRA; SI NO, SE VISUALIZA LA INFOGRAFÍA HTML NATIVA -->
-                <div class="mb-6">
-                    <img src="Gestión_de_stock_y_albaranes.png" alt="Sistema Digital de Gestión de Stock y Albaranes" class="w-full h-auto rounded-xl shadow-md border border-slate-200 mb-6 onerror-hide" onerror="this.style.display='none';">
-                </div>
-
-                <!-- PANEL INFOGRÁFICO NATIVO RENDERIZADO EN HTML Y CSS -->
-                <div class="space-y-6 bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200">
-                    
-                    <!-- BLOQUE 1: ARQUITECTURA TECNOLÓGICA -->
-                    <div class="bg-slate-900 text-white rounded-xl p-6 shadow-md border border-slate-800">
-                        <div class="flex items-center space-x-3 mb-4 border-b border-slate-800 pb-3">
-                            <div class="p-2 bg-green-500/20 text-green-400 rounded-lg">
-                                <i class="fas fa-cubes text-xl"></i>
-                            </div>
-                            <h4 class="text-base font-bold uppercase tracking-wider text-slate-100">1. Arquitectura Tecnológica del Sistema</h4>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-                                <div class="text-green-400 font-bold text-sm mb-1 flex items-center">
-                                    <i class="fas fa-server mr-2"></i> Backend en Django
-                                </div>
-                                <p class="text-slate-300">Proporciona arquitectura MVC segura y modular. Organiza el código en vistas, modelos y plantillas.</p>
-                            </div>
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-                                <div class="text-emerald-300 font-bold text-sm mb-1 flex items-center">
-                                    <i class="fas fa-desktop mr-2"></i> Frontend con Bootstrap
-                                </div>
-                                <p class="text-slate-300">Permite una interfaz adaptable (responsiva) a teléfonos móviles, tabletas y ordenadores de escritorio.</p>
-                            </div>
-                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm">
-                                <div class="text-purple-300 font-bold text-sm mb-1 flex items-center">
-                                    <i class="fas fa-database mr-2"></i> Base de Datos SQLite
-                                </div>
-                                <p class="text-slate-300">Motor ligero embebido ideal para la gestión inicial y pruebas de prototipo en entorno de desarrollo.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BLOQUE 2: TIPOS Y NORMATIVA DE ALBARANES -->
-                    <div class="bg-amber-50 rounded-xl p-6 border border-amber-200 shadow-sm">
-                        <div class="flex items-center space-x-3 mb-4 border-b border-amber-200 pb-3">
-                            <div class="p-2 bg-amber-500/20 text-amber-800 rounded-lg">
-                                <i class="fas fa-file-invoice text-xl"></i>
-                            </div>
-                            <h4 class="text-base font-bold text-amber-950 uppercase tracking-wider">2. Tipos y Normativa de Albaranes</h4>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm">
-                                <h5 class="font-bold text-amber-900 text-xs mb-2 flex items-center">
-                                    <i class="fas fa-calculator mr-2 text-amber-600"></i> Albarán Valorado
-                                </h5>
-                                <p class="text-slate-600 leading-relaxed">Detalla precios unitarios, IVA aplicable e importe total económico de la transacción comercial.</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm">
-                                <h5 class="font-bold text-amber-900 text-xs mb-2 flex items-center">
-                                    <i class="fas fa-box-open mr-2 text-amber-600"></i> Albarán Sin Valorar
-                                </h5>
-                                <p class="text-slate-600 leading-relaxed">Describe únicamente la mercancía y la cantidad sin mostrar importes económicos; requiere factura adjunta.</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-amber-300 shadow-sm">
-                                <h5 class="font-bold text-amber-950 text-xs mb-2">Diferencia con Factura</h5>
-                                <p class="text-[11px] text-amber-900 font-medium mb-2">El albarán carece de validez fiscal directa.</p>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-[11px] text-left border-collapse">
-                                        <tr class="border-b font-semibold bg-amber-100/60"><td class="p-1">Criterio</td><td class="p-1">Albarán</td><td class="p-1">Factura</td></tr>
-                                        <tr class="border-b"><td class="p-1 font-medium">Validez</td><td class="p-1 text-slate-500">Sin función tributaria</td><td class="p-1 font-bold text-amber-900">Obligatoria</td></tr>
-                                        <tr><td class="p-1 font-medium">Función</td><td class="p-1">Acredita entrega</td><td class="p-1">Justifica pago</td></tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BLOQUE 3 Y 4: FLUJO OPERATIVO Y CUMPLIMIENTO LEGAL -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        
-                        <!-- FLUJO OPERATIVO (2 COLS) -->
-                        <div class="md:col-span-2 bg-emerald-50 rounded-xl p-6 border border-emerald-200 shadow-sm">
-                            <div class="flex items-center space-x-3 mb-4 border-b border-emerald-200 pb-3">
-                                <div class="p-2 bg-emerald-500/20 text-emerald-800 rounded-lg">
-                                    <i class="fas fa-sync text-xl"></i>
-                                </div>
-                                <h4 class="text-base font-bold text-emerald-950 uppercase tracking-wider">3. Flujo Operativo de Inventario</h4>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                                <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-truck-loading text-emerald-600 mr-2"></i> Entrada de Compras</span>
-                                    <p class="text-slate-600">Recalcula el stock físico y ajusta el precio medio ponderado del producto.</p>
-                                </div>
-                                <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-file-signature text-emerald-600 mr-2"></i> Generación de Albaranes</span>
-                                    <p class="text-slate-600">Asigna productos y clientes en tiempo real dentro del módulo Django.</p>
-                                </div>
-                                <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-chart-line text-emerald-600 mr-2"></i> Control Stock Teórico</span>
-                                    <p class="text-slate-600">Emite alertas automáticas ante valores negativos para reabastecer existencias.</p>
-                                </div>
-                                <div class="bg-white p-3 rounded-lg border border-emerald-200">
-                                    <span class="font-bold text-emerald-900 block mb-1 flex items-center"><i class="fas fa-warehouse text-emerald-600 mr-2"></i> Actualización de Stock</span>
-                                    <p class="text-slate-600">Resta unidades automáticamente del inventario tras guardar la venta.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CUMPLIMIENTO LEGAL (1 COL) -->
-                        <div class="bg-purple-50 rounded-xl p-6 border border-purple-200 shadow-sm flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-center space-x-3 mb-4 border-b border-purple-200 pb-3">
-                                    <div class="p-2 bg-purple-500/20 text-purple-800 rounded-lg">
-                                        <i class="fas fa-gavel text-xl"></i>
-                                    </div>
-                                    <h4 class="text-base font-bold text-purple-950 uppercase tracking-wider">4. Cumplimiento Legal</h4>
-                                </div>
-                                <div class="space-y-3 text-xs">
-                                    <div class="bg-white p-3.5 rounded-lg border border-purple-200">
-                                        <span class="font-bold text-purple-950 block mb-1"><i class="fas fa-clock text-purple-600 mr-1.5"></i> Ley de Morosidad (Ley 15/2010)</span>
-                                        <p class="text-slate-600">Fija el plazo máximo de pago en **60 días naturales** desde la recepción y firma del albarán.</p>
-                                    </div>
-                                    <div class="bg-white p-3.5 rounded-lg border border-purple-200">
-                                        <span class="font-bold text-purple-950 block mb-1"><i class="fas fa-archive text-purple-600 mr-1.5"></i> Obligación de Conservación</span>
-                                        <p class="text-slate-600">Es obligatorio retener el albarán si la factura emitida hace referencia a dicho número.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- SECCIÓN 2: CASOS PRÁCTICOS Y SIMULACIÓN INTERACTIVA -->
-        <section id="ejercicios-tab" class="tab-content hidden space-y-6">
-            <div class="bg-gradient-to-r from-emerald-800 to-migasa-dark text-white p-6 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h3 class="text-lg font-bold flex items-center">
-                        <i class="fas fa-gamepad mr-2 text-yellow-300"></i> Simulación Operativa de Albaranes e Inventario
-                    </h3>
-                    <p class="text-xs text-slate-200 mt-1">Practica la toma de decisiones en recepción de mercancías, control de stock y prompts para IA en MIGASA.</p>
-                </div>
-                <span class="bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                    Entrenamiento Activo
-                </span>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                <!-- SIMULADOR CÁLCULO DE STOCK -->
-                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                        <h4 class="text-sm font-bold text-slate-900 flex items-center">
-                            <span class="bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2">1</span>
-                            Calculadora de Stock Teórico
-                        </h4>
-                        <span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Lógica Django</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Introduce los valores para probar el algoritmo del sistema:</p>
-
-                    <div class="grid grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+        <!-- Contenido de Pestañas -->
+        <div class="tab-content" id="platformTabsContent">
+            
+            <!-- PESTAÑA 1: INFOGRAFÍA DEL SISTEMA -->
+            <div class="tab-pane fade show active" id="infografia" role="tabpanel">
+                <div class="section-card">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Stock Físico</label>
-                            <input type="number" id="input-stock-fisico" value="1000" class="w-full px-2 py-1 border border-slate-300 rounded focus:ring-2 focus:ring-green-500">
+                            <h3 class="h4 fw-bold text-uppercase mb-1"><i class="bi bi-diagram-3-fill text-success me-2"></i>Sistema Digital de Gestión de Stock y Albaranes</h3>
+                            <p class="text-muted mb-0">Esquema integral de la Arquitectura Tecnológica, Tipos de Albaranes, Flujo Operativo y Cumplimiento Legal.</p>
                         </div>
+                        <span class="info-pill">Infografía Web Integrada</span>
+                    </div>
+
+                    <!-- 1. Arquitectura -->
+                    <div class="arch-box mb-4">
+                        <h4 class="h6 text-uppercase fw-bold text-info mb-3"><i class="bi bi-cpu me-2"></i>1. Arquitectura Tecnológica del Sistema</h4>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <h5 class="h6 fw-bold text-success">Backend en Django</h5>
+                                    <p class="small text-light opacity-75 mb-0">Proporciona arquitectura MVC segura y modular. Organiza el código en vistas, modelos y plantillas.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <h5 class="h6 fw-bold text-info">Frontend con Bootstrap</h5>
+                                    <p class="small text-light opacity-75 mb-0">Permite una interfaz adaptable (responsiva) a teléfonos móviles, tabletas y ordenadores de escritorio.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <h5 class="h6 fw-bold text-warning">Base de Datos SQLite</h5>
+                                    <p class="small text-light opacity-75 mb-0">Motor ligero embebido ideal para la gestión inicial y pruebas de prototipo en entorno de desarrollo.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Tipos y Normativa de Albaranes -->
+                    <h4 class="h6 text-uppercase fw-bold text-primary mb-3"><i class="bi bi-file-earmark-ruled me-2"></i>2. Tipos y Normativa de Albaranes</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 h-100 bg-light">
+                                <h5 class="h6 fw-bold">Albarán Valorado</h5>
+                                <p class="small text-muted mb-0">Detalla precios unitarios, IVA aplicable e importe total económico de la transacción comercial.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 h-100 bg-light">
+                                <h5 class="h6 fw-bold">Albarán Sin Valorar</h5>
+                                <p class="small text-muted mb-0">Describe únicamente la mercancía y la cantidad sin mostrar importes económicos; requiere factura adjunta.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 h-100 bg-light">
+                                <h5 class="h6 fw-bold">Diferencia con Factura</h5>
+                                <table class="table table-sm table-bordered small mb-0 bg-white">
+                                    <thead>
+                                        <tr><th>Criterio</th><th>Albarán</th><th>Factura</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Validez</td><td>Sin función tributaria</td><td>Obligatoria</td></tr>
+                                        <tr><td>Función</td><td>Acredita entrega</td><td>Justifica pago</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Flujo Operativo -->
+                    <h4 class="h6 text-uppercase fw-bold text-success mb-3"><i class="bi bi-arrow-repeat me-2"></i>3. Flujo Operativo de Inventario</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="p-3 border-start border-4 border-success bg-light rounded-end">
+                                <h6 class="fw-bold small">Entrada de Compras</h6>
+                                <p class="small text-muted mb-0">Recalcula el stock físico y ajusta el precio medio ponderado del producto.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border-start border-4 border-primary bg-light rounded-end">
+                                <h6 class="fw-bold small">Generación de Albaranes</h6>
+                                <p class="small text-muted mb-0">Asigna productos y clientes en tiempo real dentro del módulo Django.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border-start border-4 border-warning bg-light rounded-end">
+                                <h6 class="fw-bold small">Control Stock Teórico</h6>
+                                <p class="small text-muted mb-0">Emite alertas automáticas ante valores negativos para reabastecer existencias.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 border-start border-4 border-danger bg-light rounded-end">
+                                <h6 class="fw-bold small">Actualización de Stock</h6>
+                                <p class="small text-muted mb-0">Resta unidades automáticamente del inventario tras guardar la venta.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Cumplimiento Legal -->
+                    <h4 class="h6 text-uppercase fw-bold text-dark mb-3"><i class="bi bi-shield-check me-2"></i>4. Cumplimiento Legal</h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="alert alert-secondary mb-0">
+                                <h6 class="fw-bold mb-1">Ley de Morosidad (Ley 15/2010)</h6>
+                                <p class="small mb-0">Fija el plazo máximo de pago en <strong>60 días naturales</strong> desde la recepción y firma del albarán.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-secondary mb-0">
+                                <h6 class="fw-bold mb-1">Obligación de Conservación</h6>
+                                <p class="small mb-0">Es obligatorio retener el albarán si la factura emitida hace referencia a dicho número.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 2: CASOS PRÁCTICOS & SIMULACIÓN -->
+            <div class="tab-pane fade" id="simulacion" role="tabpanel">
+                <div class="section-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Pend. Recibir</label>
-                            <input type="number" id="input-pendiente-recibir" value="500" class="w-full px-2 py-1 border border-slate-300 rounded focus:ring-2 focus:ring-green-500">
+                            <h3 class="h4 fw-bold mb-1">Simulación Operativa de Albaranes e Inventario</h3>
+                            <p class="text-muted mb-0">Practica la toma de decisiones en recepción de mercancías, control de stock y prompts para IA en el entorno administrativo.</p>
                         </div>
+                        <span class="badge bg-success fs-6">Entrenamiento Activo</span>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Calculadora Stock -->
+                        <div class="col-md-4">
+                            <div class="sim-card">
+                                <span class="badge bg-primary mb-2">1 • Lógica Django</span>
+                                <h4 class="h6 fw-bold">Calculadora de Stock Teórico</h4>
+                                <p class="small text-muted">Introduce los valores para probar el algoritmo del sistema:</p>
+                                <div class="mb-2">
+                                    <label class="form-label small fw-bold">Stock Físico</label>
+                                    <input type="number" id="stockFisico" class="form-control form-control-sm" value="50">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small fw-bold">Pend. Recibir</label>
+                                    <input type="number" id="pendRecibir" class="form-control form-control-sm" value="20">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Pend. Salir</label>
+                                    <input type="number" id="pendSalir" class="form-control form-control-sm" value="85">
+                                </div>
+                                <button onclick="calcularStock()" class="btn btn-success btn-sm w-100 fw-bold">Calcular Stock Teórico</button>
+                                <div id="resultadoStock" class="mt-3 small fw-bold"></div>
+                            </div>
+                        </div>
+
+                        <!-- Triage Legal -->
+                        <div class="col-md-4">
+                            <div class="sim-card">
+                                <span class="badge bg-warning text-dark mb-2">2 • Normativa</span>
+                                <h4 class="h6 fw-bold">Triage Legal de Albaranes (Ley 15/2010)</h4>
+                                <p class="small text-muted">Recibes un <strong>Albarán Sin Valorar</strong> en recepción. ¿Qué procedimiento legal debes seguir?</p>
+                                <div class="d-grid gap-2">
+                                    <button onclick="checkTriage(false)" class="btn btn-outline-secondary btn-sm text-start">A. Archivar el albarán como documento fiscal único de cobro a 60 días.</button>
+                                    <button onclick="checkTriage(true)" class="btn btn-outline-secondary btn-sm text-start">B. Exigir la factura adjunta, firmar la recepción e iniciar el cómputo de 60 días naturales.</button>
+                                    <button onclick="checkTriage(false)" class="btn btn-outline-secondary btn-sm text-start">C. Rechazar la mercancía por falta de IVA desglosado en el albarán.</button>
+                                </div>
+                                <div id="resultadoTriage" class="mt-3 small fw-bold"></div>
+                            </div>
+                        </div>
+
+                        <!-- Generador Prompts -->
+                        <div class="col-md-4">
+                            <div class="sim-card">
+                                <span class="badge bg-info text-dark mb-2">3 • Prompting Asistido</span>
+                                <h4 class="h6 fw-bold">Generador Automático de Prompts con IA</h4>
+                                <p class="small text-muted">Selecciona el tipo de incidencia para generar la instrucción lista para IA:</p>
+                                <div class="btn-group w-100 mb-3" role="group">
+                                    <button onclick="setPrompt('retraso')" class="btn btn-outline-dark btn-sm">Retraso Envío</button>
+                                    <button onclick="setPrompt('descuadre')" class="btn btn-outline-dark btn-sm">Descuadre Stock</button>
+                                    <button onclick="setPrompt('ley')" class="btn btn-outline-dark btn-sm">Ley 15/2010</button>
+                                </div>
+                                <div id="promptBox" class="prompt-output mb-2">Selecciona una incidencia arriba para generar el prompt optimizado...</div>
+                                <button onclick="copiarPrompt()" class="btn btn-dark btn-sm w-100"><i class="bi bi-clipboard me-1"></i> Copiar Prompt</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 3: CUESTIONARIO (10 PREGUNTAS) -->
+            <div class="tab-pane fade" id="cuestionario" role="tabpanel">
+                <div class="section-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Pend. Salir</label>
-                            <input type="number" id="input-pendiente-salir" value="1800" class="w-full px-2 py-1 border border-slate-300 rounded focus:ring-2 focus:ring-green-500">
+                            <h3 class="h4 fw-bold mb-1">Cuestionario de Evaluación (10 Preguntas)</h3>
+                            <p class="text-muted mb-0">Haz clic en cada pregunta para desplegar la respuesta argumentada según la documentación técnica y legal.</p>
                         </div>
+                        <button class="btn btn-outline-success btn-sm" onclick="toggleAllAnswers()">Mostrar / Ocultar Respuestas</button>
                     </div>
 
-                    <button onclick="calcularStockTeorico()" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 rounded-lg transition flex items-center justify-center space-x-2">
-                        <i class="fas fa-calculator"></i>
-                        <span>Calcular Stock Teórico</span>
-                    </button>
-
-                    <div id="resultado-stock" class="hidden p-3 rounded-lg text-xs font-medium border"></div>
-                </div>
-
-                <!-- TRIAGE DOCUMENTAL -->
-                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                        <h4 class="text-sm font-bold text-slate-900 flex items-center">
-                            <span class="bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2">2</span>
-                            Triage Legal de Albaranes (Ley 15/2010)
-                        </h4>
-                        <span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Normativa</span>
-                    </div>
-
-                    <p class="text-xs text-slate-600">
-                        Recibes un <strong>Albarán Sin Valorar</strong> en recepción. ¿Qué procedimiento legal debes seguir?
-                    </p>
-
-                    <div class="space-y-2 text-xs">
-                        <label onclick="evaluarCasoTriage(1)" class="flex items-start space-x-3 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="triage" class="mt-0.5 text-green-600">
-                            <span>A. Archivar el albarán como documento fiscal único de cobro a 60 días.</span>
-                        </label>
-                        <label onclick="evaluarCasoTriage(2)" class="flex items-start space-x-3 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="triage" class="mt-0.5 text-green-600">
-                            <span>B. Exigir la factura adjunta, firmar la recepción e iniciar el cómputo de 60 días naturales.</span>
-                        </label>
-                        <label onclick="evaluarCasoTriage(3)" class="flex items-start space-x-3 p-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="radio" name="triage" class="mt-0.5 text-green-600">
-                            <span>C. Rechazar la mercancía por falta de IVA desglosado en el albarán.</span>
-                        </label>
-                    </div>
-
-                    <div id="resultado-triage" class="hidden p-3 rounded-lg text-xs font-medium border"></div>
-                </div>
-
-            </div>
-
-            <!-- GENERADOR DE PROMPTS -->
-            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
-                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                    <h4 class="text-sm font-bold text-slate-900 flex items-center">
-                        <span class="bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-2">3</span>
-                        Generador Automático de Prompts con IA para Laura
-                    </h4>
-                    <span class="text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">Prompting Asistido</span>
-                </div>
-
-                <p class="text-xs text-slate-600">Selecciona el tipo de incidencia para generar la instrucción lista para IA:</p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                    <button onclick="generarPromptIA('retraso')" class="p-3 bg-slate-50 border border-slate-200 hover:border-green-500 rounded-lg text-left transition font-semibold text-slate-700">
-                        <i class="fas fa-truck-moving text-amber-500 mr-1.5"></i> Retraso en Cisterna
-                    </button>
-                    <button onclick="generarPromptIA('error_albaran')" class="p-3 bg-slate-50 border border-slate-200 hover:border-green-500 rounded-lg text-left transition font-semibold text-slate-700">
-                        <i class="fas fa-exclamation-triangle text-red-500 mr-1.5"></i> Descuadre de Litros
-                    </button>
-                    <button onclick="generarPromptIA('factura_rectificativa')" class="p-3 bg-slate-50 border border-slate-200 hover:border-green-500 rounded-lg text-left transition font-semibold text-slate-700">
-                        <i class="fas fa-file-invoice text-blue-500 mr-1.5"></i> Reclamación Ley 15/2010
-                    </button>
-                </div>
-
-                <div id="box-prompt" class="hidden bg-slate-900 text-slate-100 p-4 rounded-lg text-xs font-mono relative">
-                    <button onclick="copiarPrompt()" class="absolute top-3 right-3 bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded text-[10px] font-sans">
-                        <i class="fas fa-copy mr-1"></i> Copiar Prompt
-                    </button>
-                    <p id="text-prompt-code" class="pr-20 leading-relaxed"></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 3: CUESTIONARIO COMPLETO (10 PREGUNTAS CON RESPUESTAS INTERACTIVAS) -->
-        <section id="cuestionario-tab" class="tab-content hidden space-y-6">
-            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4 mb-6">
-                    <div>
-                        <h3 class="text-base font-bold text-slate-900">Cuestionario de Evaluación (10 Preguntas)</h3>
-                        <p class="text-xs text-slate-500">Haz clic en cada pregunta para desplegar la respuesta argumentada según la documentación técnica y legal.</p>
-                    </div>
-                    <button onclick="toggleAllAnswers()" class="mt-3 sm:mt-0 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded transition">
-                        <i class="fas fa-eye mr-1"></i> Mostrar / Ocultar Respuestas
-                    </button>
-                </div>
-
-                <div class="space-y-3">
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-1')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">1.</strong> ¿Cuál es el objetivo principal del TFG de Ángel Barcia Ayuso?</span>
-                            <i id="icon-ans-1" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-1" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Diseñar e implementar una aplicación web adaptativa y accesible para la gestión de stock y albaranes de una distribuidora de componentes electrónicos, sustituyendo un sistema obsoleto de los noventa.
+                    <div class="accordion" id="quizAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">1. ¿Cuál es el objetivo principal del sistema de gestión de almacén?</button></h2>
+                            <div id="q1" class="accordion-collapse collapse"><div class="accordion-body small">Diseñar e implementar una aplicación web adaptativa y accesible para la gestión de stock y albaranes de una distribuidora, sustituyendo un sistema obsoleto por una solución ágil.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-2')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">2.</strong> ¿Qué función cumplen Django y Bootstrap en el sistema?</span>
-                            <i id="icon-ans-2" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-2" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Django actúa en el backend (organización MVC, ORM y seguridad), mientras Bootstrap en el frontend proporciona la interfaz responsiva para dispositivos móviles y escritorio.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">2. ¿Qué función cumplen Django y Bootstrap en el sistema?</button></h2>
+                            <div id="q2" class="accordion-collapse collapse"><div class="accordion-body small">Django actúa en el backend (organización MVC, ORM y seguridad), mientras Bootstrap en el frontend proporciona la interfaz responsiva para dispositivos móviles y escritorio.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-3')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">3.</strong> ¿Cómo se define el "stock teórico" y cuándo exige realizar compras?</span>
-                            <i id="icon-ans-3" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-3" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Es la variable: (Stock Actual + Pendiente de Recibir) - Pendiente de Salir. Indica necesidad inminente de reabastecimiento cuando el resultado es negativo.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q3">3. ¿Cómo se define el "stock teórico" y cuándo exige realizar compras?</button></h2>
+                            <div id="q3" class="accordion-collapse collapse"><div class="accordion-body small">Es la variable: (Stock Actual + Pendiente de Recibir) - Pendiente de Salir. Indica necesidad inminente de reabastecimiento cuando el resultado es negativo.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-4')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">4.</strong> ¿Diferencias funcionales y legales entre albarán y factura?</span>
-                            <i id="icon-ans-4" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-4" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            La factura tiene validez fiscal e impuestos (IVA) obligatorios para el cobro. El albarán únicamente justifica la entrega física de la mercancía.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q4">4. ¿Diferencias funcionales y legales entre albarán y factura?</button></h2>
+                            <div id="q4" class="accordion-collapse collapse"><div class="accordion-body small">La factura tiene validez fiscal e impuestos (IVA) obligatorios para el cobro. El albarán únicamente justifica la entrega física de la mercancía.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-5')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">5.</strong> Distinción entre albarán valorado y sin valorar.</span>
-                            <i id="icon-ans-5" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-5" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            El valorado incluye precios desglosados e importes totales. El sin valorar lista únicamente cantidades de producto sin importes económicos.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q5">5. Distinción entre albarán valorado y sin valorar.</button></h2>
+                            <div id="q5" class="accordion-collapse collapse"><div class="accordion-body small">El valorado incluye precios desglosados e importes totales. El sin valorar lista únicamente cantidades de producto sin importes económicos.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-6')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">6.</strong> Plazo máximo legal según la Ley de Morosidad (Ley 15/2010).</span>
-                            <i id="icon-ans-6" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-6" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Máximo de 60 días naturales a partir de la fecha de entrega y firma del albarán por parte del comprador.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q6">6. Plazo máximo legal según la Ley de Morosidad (Ley 15/2010).</button></h2>
+                            <div id="q6" class="accordion-collapse collapse"><div class="accordion-body small">Máximo de 60 días naturales a partir de la fecha de entrega y firma del albarán por parte del comprador.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-7')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">7.</strong> ¿Cuándo es obligatorio conservar el albarán junto a la factura?</span>
-                            <i id="icon-ans-7" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-7" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Cuando la factura emitida no desglosa los artículos individualmente, sino que hace referencia directa al número de albarán entregado.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q7">7. ¿Cuándo es obligatorio conservar el albarán junto a la factura?</button></h2>
+                            <div id="q7" class="accordion-collapse collapse"><div class="accordion-body small">Cuando la factura emitida no desglosa los artículos individualmente, sino que hace referencia directa al número de albarán entregado.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-8')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">8.</strong> Validación de la función crear_compra en la app web.</span>
-                            <i id="icon-ans-8" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-8" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Verifica la petición POST y comprueba que el artículo pertenezca al proveedor asignado antes de recalcular el stock y el precio medio.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q8">8. Validación de la función crear_compra en la app web.</button></h2>
+                            <div id="q8" class="accordion-collapse collapse"><div class="accordion-body small">Verifica la petición POST y comprueba que el artículo pertenezca al proveedor asignado antes de recalcular el stock y el precio medio.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-9')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">9.</strong> Aportaciones de GitHub y control de versiones.</span>
-                            <i id="icon-ans-9" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-9" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Mantiene historial de cambios para corregir errores, sirve de copia remota segura y permite despliegue continuo con GitHub Actions.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q9">9. Aportaciones de GitHub y control de versiones.</button></h2>
+                            <div id="q9" class="accordion-collapse collapse"><div class="accordion-body small">Mantiene historial de cambios para corregir errores, sirve de copia remota segura y permite despliegue continuo con GitHub Actions.</div></div>
                         </div>
-                    </div>
-
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <button onclick="toggleAccordion('ans-10')" class="w-full text-left p-4 bg-slate-50 hover:bg-slate-100 font-semibold text-xs sm:text-sm text-slate-800 flex justify-between items-center transition">
-                            <span><strong class="text-green-700">10.</strong> Procedimiento de cálculo de la función importe_total_albarán.</span>
-                            <i id="icon-ans-10" class="fas fa-chevron-down text-slate-400"></i>
-                        </button>
-                        <div id="ans-10" class="hidden p-4 bg-white border-t border-slate-200 text-xs text-slate-700 leading-relaxed">
-                            Comprueba el albarán activo en la sesión del usuario, recorre los artículos sumando subtotales (cantidad × precio) y devuelve el total acumulado.
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q10">10. Procedimiento de cálculo de la función importe_total_albarán.</button></h2>
+                            <div id="q10" class="accordion-collapse collapse"><div class="accordion-body small">Comprueba el albarán activo en la sesión del usuario, recorre los artículos sumando subtotales (cantidad × precio) y devuelve el total acumulado.</div></div>
                         </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 4: PREGUNTAS DE DESARROLLO -->
-        <section id="ensayo-tab" class="tab-content hidden space-y-6">
-            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
-                <h3 class="text-base font-bold text-slate-900 mb-4">Preguntas de Desarrollo y Ensayo</h3>
-                <div class="space-y-4">
-                    <div class="p-4 bg-slate-50 border rounded-lg text-xs">
-                        <h4 class="font-bold text-slate-800 mb-1">1. Arquitectura Django & Seguridad en la Empresa</h4>
-                        <p class="text-slate-600">Analice cómo influye la adopción del patrón MVC y módulos de Django en la mantenibilidad y escalabilidad del sistema informático.</p>
-                    </div>
-                    <div class="p-4 bg-slate-50 border rounded-lg text-xs">
-                        <h4 class="font-bold text-slate-800 mb-1">2. Migración de Sistemas Herdados (Legacy)</h4>
-                        <p class="text-slate-600">Evalúe las implicaciones técnicas y operativas de migrar un programa de inventario de los años noventa a una web responsiva.</p>
-                    </div>
-                    <div class="p-4 bg-slate-50 border rounded-lg text-xs">
-                        <h4 class="font-bold text-slate-800 mb-1">3. Impacto Operativo de la Ley de Morosidad</h4>
-                        <p class="text-slate-600">Explique el impacto de la Ley 15/2010 en la administración de albaranes y facturación en almacenes industriales.</p>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- SECCIÓN 5: VÍDEO Y AUDIO NOTEBOOKLM -->
-        <section id="video-tab" class="tab-content hidden space-y-6">
-            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
-                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center">
-                    <i class="fab fa-youtube text-red-600 mr-2"></i> Recurso Multimedia & NotebookLM
-                </h3>
-                <div class="bg-slate-900 text-white rounded-xl p-6 text-center space-y-4">
-                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-pulse">
-                        <i class="fas fa-play text-2xl text-white ml-1"></i>
+            <!-- PESTAÑA 4: PREGUNTAS DE DESARROLLO -->
+            <div class="tab-pane fade" id="desarrollo" role="tabpanel">
+                <div class="section-card">
+                    <h3 class="h4 fw-bold mb-4">Preguntas de Desarrollo y Ensayo</h3>
+                    <div class="mb-4 p-3 bg-light rounded-3 border">
+                        <h4 class="h6 fw-bold">1. Arquitectura Django &amp; Seguridad en la Empresa</h4>
+                        <p class="small text-muted mb-0">Analice cómo influye la adopción del patrón MVC y módulos de Django en la mantenibilidad y escalabilidad del sistema informático.</p>
                     </div>
-                    <h4 class="text-sm font-bold">Tutorial de Albaranes e Inventarios con IA</h4>
-                    <div class="flex justify-center gap-3">
-                        <a href="https://www.youtube.com/watch?v=LVRTVPGqKvQ" target="_blank" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Ver en YouTube</a>
-                        <a href="https://notebook.google.com/notebook/a61ee3bf-6945-45ea-812b-ab2d26891a61/artifact/0533c9c7-f3db-4af5-b79b-d3ed7cc2ce83" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Audio NotebookLM</a>
+                    <div class="mb-4 p-3 bg-light rounded-3 border">
+                        <h4 class="h6 fw-bold">2. Migración de Sistemas Herdados (Legacy)</h4>
+                        <p class="small text-muted mb-0">Evalúe las implicaciones técnicas y operativas de migrar un programa de inventario obsoleto a una aplicación web responsiva.</p>
+                    </div>
+                    <div class="p-3 bg-light rounded-3 border">
+                        <h4 class="h6 fw-bold">3. Impacto Operativo de la Ley de Morosidad</h4>
+                        <p class="small text-muted mb-0">Explique el impacto de la Ley 15/2010 en la administración de albaranes y facturación en almacenes y empresas comerciales.</p>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- SECCIÓN 6: GLOSARIO TÉCNICO -->
-        <section id="glosario-tab" class="tab-content hidden space-y-6">
-            <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-base font-bold text-slate-900">Glosario Técnico de Términos</h3>
-                    <input type="text" id="search-glosario" onkeyup="filterGlosario()" placeholder="Buscar término..." class="text-xs px-3 py-1.5 border rounded-lg">
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="bg-slate-100 font-bold border-b"><th class="p-2.5">Término</th><th class="p-2.5">Definición</th></tr>
+            <!-- PESTAÑA 5: GLOSARIO TÉCNICO -->
+            <div class="tab-pane fade" id="glosario" role="tabpanel">
+                <div class="section-card">
+                    <h3 class="h4 fw-bold mb-4">Glosario Técnico de Términos</h3>
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Término</th>
+                                <th>Definición</th>
+                            </tr>
                         </thead>
-                        <tbody id="glosario-table-body" class="divide-y divide-slate-200">
-                            <tr><td class="p-2.5 font-bold text-green-800">Albarán</td><td class="p-2.5">Documento mercantil que justifica la entrega física de mercancías.</td></tr>
-                            <tr><td class="p-2.5 font-bold text-green-800">Stock Teórico</td><td class="p-2.5">Indicador previsor: (Stock actual + Pedidos pendientes de recibir) - Pendientes de salir.</td></tr>
-                            <tr><td class="p-2.5 font-bold text-green-800">Ley 15/2010</td><td class="p-2.5">Norma que limita a 60 días el plazo máximo legal de pago comercial.</td></tr>
-                            <tr><td class="p-2.5 font-bold text-green-800">Django</td><td class="p-2.5">Framework de desarrollo web en Python basado en el patrón MVC.</td></tr>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Albarán</td>
+                                <td>Documento mercantil que justifica la entrega física de mercancías.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Stock Teórico</td>
+                                <td>Indicador previsor: (Stock actual + Pedidos pendientes de recibir) - Pendientes de salir.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Ley 15/2010</td>
+                                <td>Norma que limita a 60 días el plazo máximo legal de pago comercial.</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Django</td>
+                                <td>Framework de desarrollo web en Python basado en el patrón MVC.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section>
 
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>© 2026 Prompt&Go AI Platform. Prototipo de Formación Adaptativa para Entornos Administrativos y Logísticos.</p>
         </div>
+    </div>
+
+    <footer class="text-center text-muted small py-4 mt-4 border-top">
+        © 2026 Prompt&amp;Go AI Platform. Prototipo de Formación Adaptativa para Entornos Administrativos y Logísticos.
     </footer>
 
-    <!-- INTERACTIVIDAD JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-                tab.classList.remove('block');
-            });
-            const targetTab = document.getElementById(tabId);
-            if(targetTab) {
-                targetTab.classList.remove('hidden');
-                targetTab.classList.add('block');
-            }
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('active-tab');
-            });
-            const activeBtn = document.getElementById('btn-' + tabId);
-            if(activeBtn) {
-                activeBtn.classList.add('active-tab');
-            }
-        }
-
-        function calcularStockTeorico() {
-            const fisico = parseFloat(document.getElementById('input-stock-fisico').value) || 0;
-            const recibir = parseFloat(document.getElementById('input-pendiente-recibir').value) || 0;
-            const salir = parseFloat(document.getElementById('input-pendiente-salir').value) || 0;
-            const stockTeorico = (fisico + recibir) - salir;
-            const resDiv = document.getElementById('resultado-stock');
-            resDiv.classList.remove('hidden', 'bg-red-50', 'bg-green-50', 'border-red-200', 'border-green-200', 'text-red-800', 'text-green-800');
-
-            if (stockTeorico < 0) {
-                resDiv.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
-                resDiv.innerHTML = `<strong>⚠️ STOCK TEÓRICO NEGATIVO (${stockTeorico} Litros):</strong> Se activa orden de compra automática en Django.`;
+        function calcularStock() {
+            const fisico = parseFloat(document.getElementById('stockFisico').value) || 0;
+            const recibir = parseFloat(document.getElementById('pendRecibir').value) || 0;
+            const salir = parseFloat(document.getElementById('pendSalir').value) || 0;
+            const teorico = (fisico + recibir) - salir;
+            const res = document.getElementById('resultadoStock');
+            if (teorico < 0) {
+                res.innerHTML = `<span class="text-danger">Stock Teórico: ${teorico} uds. ⚠️ ¡Alerta de rotura! Generar orden de compra.</span>`;
             } else {
-                resDiv.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
-                resDiv.innerHTML = `<strong>✅ STOCK TEÓRICO SUFICIENTE (${stockTeorico} Litros):</strong> Inventario en rango seguro.`;
+                res.innerHTML = `<span class="text-success">Stock Teórico: ${teorico} uds. ✅ Nivel óptimo cubierto.</span>`;
             }
         }
 
-        function evaluarCasoTriage(opcion) {
-            const resDiv = document.getElementById('resultado-triage');
-            resDiv.classList.remove('hidden', 'bg-red-50', 'bg-green-50', 'border-red-200', 'border-green-200', 'text-red-800', 'text-green-800');
-
-            if (opcion === 2) {
-                resDiv.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
-                resDiv.innerHTML = `<strong>¡Correcto!</strong> Requiere factura adjunta y firma para iniciar el plazo de 60 días (Ley 15/2010).`;
+        function checkTriage(esCorrecto) {
+            const res = document.getElementById('resultadoTriage');
+            if (esCorrecto) {
+                res.innerHTML = `<span class="text-success">✅ ¡Correcto! El albarán sin valorar requiere factura adjunta y activa los 60 días legales.</span>`;
             } else {
-                resDiv.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
-                resDiv.innerHTML = `<strong>Incorrecto:</strong> Un albarán sin valorar no desglosa IVA ni importes; requiere la factura adjunta.`;
+                res.innerHTML = `<span class="text-danger">❌ Incorrecto. Revisa la Ley 15/2010: el albarán no tiene validez fiscal sin factura.</span>`;
             }
         }
 
-        function generarPromptIA(tipo) {
-            const box = document.getElementById('box-prompt');
-            const code = document.getElementById('text-prompt-code');
-            box.classList.remove('hidden');
-
-            if (tipo === 'retraso') {
-                code.innerText = `Actúa como Laura Gómez en MIGASA. Redacta un correo a transportes por retraso en cisterna de aceite, solicitando seguimiento y franja límite de albarán.`;
-            } else if (tipo === 'error_albaran') {
-                code.innerText = `Actúa como Laura Gómez. Crea plantilla para notificar descuadre entre litros en albarán y pesada en báscula.`;
-            } else if (tipo === 'factura_rectificativa') {
-                code.innerText = `Genera aviso de vencimiento a 60 días según Ley 15/2010 tras firma de albarán de entrega N.º 4059.`;
-            }
+        function setPrompt(tipo) {
+            const box = document.getElementById('promptBox');
+            const prompts = {
+                retraso: 'Actúa como responsable de logística. Redacta un correo formal reclamando al proveedor el retraso en la entrega del pedido #402, solicitando nueva fecha estimada y confirmando la recepción parcial bajo albarán.',
+                descuadre: 'Analiza esta tabla de inventario [PEGAR DATOS] y detecta diferencias entre el stock físico y el stock teórico, generando un informe resumen con los artículos que requieren reposición urgente.',
+                ley: 'Redacta una notificación formal recordando al cliente el vencimiento del plazo legal de 60 días naturales según la Ley 15/2010 desde la firma del albarán de entrega adjunto.'
+            };
+            box.textContent = prompts[tipo];
         }
 
         function copiarPrompt() {
-            const text = document.getElementById('text-prompt-code').innerText;
+            const text = document.getElementById('promptBox').textContent;
             navigator.clipboard.writeText(text);
-            alert("¡Prompt copiado al portapapeles!");
+            alert('Prompt copiado al portapapeles.');
         }
 
-        function toggleAccordion(id) {
-            const content = document.getElementById(id);
-            const icon = document.getElementById('icon-' + id);
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                if(icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
-            } else {
-                content.classList.add('hidden');
-                if(icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
-            }
-        }
-
-        let allExpanded = false;
         function toggleAllAnswers() {
-            allExpanded = !allExpanded;
-            for (let i = 1; i <= 10; i++) {
-                const content = document.getElementById('ans-' + i);
-                const icon = document.getElementById('icon-ans-' + i);
-                if (allExpanded) {
-                    if(content) content.classList.remove('hidden');
-                    if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
-                } else {
-                    if(content) content.classList.add('hidden');
-                    if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
-                }
-            }
-        }
-
-        function filterGlosario() {
-            const input = document.getElementById('search-glosario');
-            const filter = input.value.toUpperCase();
-            const tbody = document.getElementById('glosario-table-body');
-            const tr = tbody.getElementsByTagName('tr');
-
-            for (let i = 0; i < tr.length; i++) {
-                const tdTerm = tr[i].getElementsByTagName('td')[0];
-                const tdDef = tr[i].getElementsByTagName('td')[1];
-                if (tdTerm || tdDef) {
-                    const txtTerm = tdTerm.textContent || tdTerm.innerText;
-                    const txtDef = tdDef.textContent || tdDef.innerText;
-                    if (txtTerm.toUpperCase().indexOf(filter) > -1 || txtDef.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
+            document.querySelectorAll('#quizAccordion .accordion-collapse').forEach(el => {
+                new bootstrap.Collapse(el, { toggle: true });
+            });
         }
     </script>
 </body>
